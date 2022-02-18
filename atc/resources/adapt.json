@@ -1,0 +1,140 @@
+{
+    "intents": {
+        "info:contact": {
+            "requires": [
+                "contact",
+                "callsign",
+                "direction",
+                "altitude"
+            ]
+        },
+        "request:clearance": {
+            "requires": [
+                "callsign",
+                "request",
+                "clearance"
+            ],
+            "optional": [
+                "airport"
+            ]
+        },
+        "readback:clearance": {
+            "requires": [
+                "callsign",
+                "airport",
+                "altitude",
+                "runway"
+            ],
+            "optional": [
+                "sidstar"
+            ]
+        },
+        "request:pushback": {
+            "requires": [
+                "callsign",
+                "request",
+                "pushback"
+            ]
+        },
+        "request:taxi": {
+            "requires": [
+                "callsign",
+                "request",
+                "taxi"
+            ]
+        },
+        "request:takeoff": {
+            "requires": [
+                "callsign",
+                "request",
+                "takeoff"
+            ], 
+            "optional": [
+                "runway"
+            ]
+        },
+        "request:alt_change": {
+            "requires": [
+                "callsign",
+                "request",
+                "altitude"
+            ]
+        },
+        "request:vectors": {
+            "requires": [
+                "callsign",
+                "request",
+                "vectors",
+                "airport"
+            ]
+        },
+        "sayagain": {
+            "requires": [
+                "callsign",
+                "sayagain"
+            ]
+        }
+    },
+    "terms": {
+        "airport": {
+            "regex": "(?P<airport>[a-zA-Z]{4})"
+        },
+        "runway": {
+            "regex": "runway (?P<runway>\\d{2}(left | right | center)?)"
+        },
+        "callsign": {
+            "regex": "(?P<callsign>[a-zA-Z]+\\s*\\d+)"
+        },
+        "sayagain": [
+            "say again",
+            "repeat",
+            "what was that"
+        ],
+        "pushback": [
+            "push back",
+            "pushback"
+        ],
+        "taxi": [
+            "taxi"
+        ],
+        "takeoff": [
+            "takeoff",
+            "departure"
+        ],
+        "xpdr": {
+            "regex": "squawk (?P<xpdr>\\d{4})"
+        },
+        "sidstar": {
+            "regex": "(?P<sidstar>\\[a-zA-Z]{5}\\d)"
+        },
+        "clearance": [
+            "clearance",
+            "ifr clearance",
+            "ifr clearance request",
+            "ifr clearance as filed"
+        ],
+        "vectors": "vectors",
+        "request": [
+            "request",
+            "requests",
+            "requesting",
+            "looking for",
+            "would like",
+            "ready for"
+        ],
+        "contact": "with you",
+        "direction": [
+            "at",
+            "descending",
+            "climbing"
+        ],
+        "altitude": [
+            {
+                "regex": "(?P<altitude>\\d+ (feet|ft))"
+            },
+            {
+                "regex": "(?P<altitude>flight level \\d{3})"
+            }
+        ]
+    }
+}

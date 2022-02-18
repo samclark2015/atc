@@ -1,0 +1,6 @@
+delta 1567 requesting ifr clearance to ksyr
+delta 1567 requesting pushback
+delta 1567 ready for takeoff
+@wait
+@wait
+@wait 

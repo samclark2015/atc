@@ -1,0 +1,4 @@
+*.log*
+build/
+__pycache__/
+atc/resources/*.sqlite

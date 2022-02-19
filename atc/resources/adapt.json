@@ -18,9 +18,10 @@
                 "airport"
             ]
         },
-        "readback:clearance": {
+        "request:clearance:readback": {
             "requires": [
                 "callsign",
+                "clearance",
                 "airport",
                 "altitude",
                 "runway"
@@ -48,7 +49,7 @@
                 "callsign",
                 "request",
                 "takeoff"
-            ], 
+            ],
             "optional": [
                 "runway"
             ]
@@ -76,15 +77,23 @@
         }
     },
     "terms": {
-        "airport": {
-            "regex": "(?P<airport>[a-zA-Z]{4})"
-        },
-        "runway": {
-            "regex": "runway (?P<runway>\\d{2}(left | right | center)?)"
-        },
+        "airport": [
+            {
+                "regex": "(?P<airport>K[a-zA-Z]{3})"
+            },
+            "airport"
+        ],
         "callsign": {
-            "regex": "(?P<callsign>[a-zA-Z]+\\s*\\d+)"
+            "regex": "(?!runway)(?P<callsign>[a-zA-Z]+\\s*\\d+)"
         },
+        "runway": [
+            {
+                "regex": "(?P<runway>\\d{2} (left|right|center)?)"
+            },
+            {
+                "regex": "runway (?P<runway>\\d{2} (left|right|center)?)"
+            }
+        ],
         "sayagain": [
             "say again",
             "repeat",
@@ -105,9 +114,10 @@
             "regex": "squawk (?P<xpdr>\\d{4})"
         },
         "sidstar": {
-            "regex": "(?P<sidstar>\\[a-zA-Z]{5}\\d)"
+            "regex": "(?P<sidstar>\\[a-zA-Z]{5}\\d) (departure|arrival)?"
         },
         "clearance": [
+            "cleared",
             "clearance",
             "ifr clearance",
             "ifr clearance request",

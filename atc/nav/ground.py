@@ -32,7 +32,6 @@ def find_path_coords(network: nx.Graph, start, end):
 
 def find_path_parking(network: nx.Graph, start, icao: str, parking: str):
     coords = get_parking_coords(icao, parking)
-    print(tuple(coords))
     return find_path_coords(network, start, tuple(coords))
 
 

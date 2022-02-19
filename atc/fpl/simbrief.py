@@ -49,13 +49,19 @@ class SimbriefImporter:
         initial_alt = int(self.ofp_data["general"].get("initial_altitude", 0))
 
         waypoints = [wpt for wpt in waypoints if len(wpt) == 5]
-        waypoints: List[Waypoint] = [Waypoint(wpt, alt_asn=initial_alt or None) for wpt in waypoints]
+        waypoints: List[Waypoint] = [
+            Waypoint(wpt, alt_asn=initial_alt or None) for wpt in waypoints
+        ]
 
         if "stepclimb_string" in self.ofp_data["general"]:
             items = self.ofp_data["general"]["stepclimb_string"].split("/")
             steps = dict(
                 (
-                    (waypoints[0].name if wpt == origin else (waypoints[-1].name if wpt == dest else wpt)),
+                    (
+                        waypoints[0].name
+                        if wpt == origin
+                        else (waypoints[-1].name if wpt == dest else wpt)
+                    ),
                     float(alt) * 100,
                 )
                 for wpt, alt in zip(items[0::2], items[1::2])

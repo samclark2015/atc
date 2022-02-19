@@ -1,0 +1,57 @@
+cant_handle:
+  - I can't handle that request. Contact the proper controller.
+  - "{callsign}, I can't handle that request. Contact the proper controller."
+garbled:
+  - Say again.
+  - Transmission garbled. Try again.
+  - Could you repeat that?
+say_again:
+  - Say again
+  - Say again, {callsign}.
+
+# Readback
+readback:ok:
+  - "{callsign}, readback correct."
+  - "{callsign}, readback correct. Contact {controller} on {freq}."
+
+# Clearance
+request:clearance:ok:
+  - "{callsign}, cleared to {destination} as filed. Climb and maintain {assigned_alt}
+    feet. Expect departing runway {dep_rwy}. Altimeter {altimeter}."
+  - "{callsign}, cleared to {destination} via the {sid} departure as filed. Climb and
+    maintain {assigned_alt} feet. Expect departing runway {dep_rwy}. Altimeter {altimeter}."
+request:clearance:not_filed:
+  - No flightplan filed.
+  - "{callsign}, no flight plan on file."
+
+# Pushback & taxi
+request:pushback:ok:
+  - "{callsign}, pushback approved."
+  - "{callsign}, pushback approved. Taxi via {path}, hold short runway {rwy}. Contact tower when ready."
+request:taxi:ok:
+  - "{callsign}, taxi via {path}, hold short runway {rwy}. Contact tower when ready."
+
+# Takeoff
+request:takeoff:ok:
+  - "{callsign}, cleared for takeoff, runway {rwy}. Altimeter {altimeter}."
+  - "{callsign}, cleared for takeoff, runway {rwy}. Winds {dir} at {speed}. Altimeter {altimeter}."
+request:takeoff:already_departed:
+  - "{callsign}, you have already departed."
+
+# Contact
+info:contact:ok:
+  - "{callsign}, hello. Radar contact confirmed. Altitude {altitude}."
+info:contact:fail:
+  - "{callsign}, hello. Squawk {xpdr_code}."
+
+info:freq_change:ok:
+  - "{callsign} to departure on 123.45."
+
+# Vectors
+info:off_course:ok:
+  - "{callsign}, you are back on course. Continue as filed."
+info:off_course:vectors:
+  - "{callsign}, you are {dist} miles off course. Turn {dir} heading {hdg} to waypoint {wpt}."
+
+request:alt_change:ok:
+  - "{callsign}, {dir} and maintain {alt}."

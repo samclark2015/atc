@@ -8,6 +8,7 @@ r = sr.Recognizer()
 engine = pyttsx3.init()
 engine.setProperty("rate", 200)
 
+
 class SpeechCom:
     def get_input(self):
         while True:
@@ -19,6 +20,7 @@ class SpeechCom:
             try:
                 text = r.recognize_google(audio)
                 text = text.lower()
+                print("< {}".format(text))
                 yield text
             except sr.UnknownValueError:
                 print("Google Speech Recognition could not understand audio")
@@ -28,6 +30,7 @@ class SpeechCom:
                         e
                     )
                 )
+
     def respond(self, text: str):
         print(">", text)
         engine.say(text)

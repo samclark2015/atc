@@ -19,12 +19,13 @@ class TextCom:
                 elif len(comps) == 2:
                     sleep(float(comps[1]))
                 continue
+            print("< {}".format(line))
             yield line
 
     def respond(self, text: str):
         if "takeoff" in text:
             self.conn.takeoff()
-        
+
         print("> {}".format(text))
 
         self.wait_event.set()

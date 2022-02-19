@@ -1,0 +1,99 @@
+---
+type: intent
+name: request:clearance
+slots:
+  - name: callsign
+    entity: callsign
+  - name: dest
+    entity: airport
+utterances:
+  - "[callsign] requesting ifr clearance"
+  - "[callsign] ready for ifr clearance"
+  - "[callsign] ready to copy ifr clearance"
+  - "[callsign] ready to copy ifr clearance to [dest]"
+  - "[callsign] ready for clearance to [dest]"
+  - "[callsign] requesting clearance to [dest]"
+  - "[callsign] requesting clearance to [dest]"
+
+---
+type: intent
+name: readback:clearance
+slots:
+  - name: callsign
+    entity: callsign
+  - name: dest
+    entity: airport
+  - name: altitude
+    entity: altitude
+  - name: runway
+    entity: runway
+  - name: sid
+    entity: sid_star
+utterances:
+  - "[callsign] cleared to [dest]. Climb and maintain [altitude]. Expect runway [runway]."
+  - "[callsign] cleared to [dest] via the [sid] departure. Climb and maintain [altitude]. Expect runway [runway]."
+  - "[callsign] clear [dest]. Up to [altitude], runway [runway]."
+  - "[callsign] clear [dest]. Up to [altitude] and [runway]."
+  - "[callsign] is clear [dest]. Up to [altitude] and [runway]."
+  - "[callsign] clear to [dest]. Climb and maintain [altitude], [runway]."
+  - "[callsign] is cleared to [dest]."
+
+---
+type: intent
+name: request:pushback
+slots:
+  - name: callsign
+    entity: callsign
+utterances:
+  - "[callsign] requesting pushback."
+  - "[callsign] requesting pushback from the gate."
+  - "[callsign] ready for pushback."
+  - "[callsign] ready for push back."
+
+---
+type: intent
+name: request:taxi
+slots:
+  - name: callsign
+    entity: callsign
+  - name: runway
+    entity: runway
+utterances:
+  - "[callsign] requesting taxi."
+  - "[callsign] requesting taxi to runway [runway]."
+  - "[callsign] ready for taxi to runway [runway]."
+  - "[callsign] ready for taxi to [runway]."
+
+---
+type: intent
+name: readback:taxi
+slots:
+  - name: callsign
+    entity: callsign
+  - name: path
+    entity: taxi_path
+  - name: runway
+    entity: runway
+utterances:
+  - "[callsign] taxi to [runway] via [path]"
+  - "[callsign] taxi to runway [runway] via [path]"
+  - "[callsign] taxi via [path] to [runway]"
+  - "[callsign] taxi via [path] to runway [runway]"
+  - "[callsign] taxi via [path]"
+
+---
+type: intent
+name: request:takeoff
+slots:
+  - name: callsign
+    entity: callsign
+  - name: runway
+    entity: runway
+utterances:
+  - "[callsign] ready for takeoff."
+  - "[callsign] ready for take off."
+  - "[callsign] requesting departure."
+  - "[callsign] ready for take off runway [runway]."
+  - "[callsign] ready for takeoff runway [runway]."
+  - "[callsign] ready for departure runway [runway]."
+  - "[callsign] requesting departure runway [runway]."

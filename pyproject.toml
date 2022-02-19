@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "atc"
+version = "0.1.0"
+description = "A FOSS ATC simulator"
+authors = ["Sam Clark <sclark@bnl.gov>"]
+license = "GPLv3"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+metar = "^1.9.0"
+requests = "^2.27.1"
+networkx = "^2.6.3"
+SpeechRecognition = "^3.8.1"
+pyttsx3 = "^2.90"
+snips-nlu = "^0.20.2"
+xplaneconnect = {git = "https://github.com/nasa/XPlaneConnect.git"}
+PyYAML = "^6.0"
+PyAudio = "^0.2.11"
+PyQt5 = "^5.15.6"
+pyqtlet = "^0.3.3"
+
+[tool.poetry.dev-dependencies]
+plotly = "^5.6.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

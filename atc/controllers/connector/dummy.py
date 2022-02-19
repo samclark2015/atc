@@ -6,7 +6,7 @@ from atc.db import get_runways
 from atc.fpl.common import FlightPlan
 from atc.nav.geo import coord_add, coord_bearing
 
-RATE = 5.0
+RATE = 15.0
 
 
 class DummyConnector:
@@ -21,7 +21,7 @@ class DummyConnector:
         self.heading = 0
         self.pos_hist = []
         self.ch = None
-        
+
     def start(self):
         self.t_start = time.time()
         self.coordinator.state["pos"] = self.pos
@@ -31,38 +31,38 @@ class DummyConnector:
     def stop(self):
         fpl: FlightPlan = self.coordinator.state["fpl"]
 
-        self.fig = go.Figure(go.Scattergeo())
+        # self.fig = go.Figure(go.Scattergeo())
 
-        self.fig.add_scattermapbox(
-            lat=[pos[0] for pos in self.pos_hist],
-            lon=[pos[1] for pos in self.pos_hist],
-            mode="markers",
-            name="acft",
-        )
+        # self.fig.add_scattermapbox(
+        #     lat=[pos[0] for pos in self.pos_hist],
+        #     lon=[pos[1] for pos in self.pos_hist],
+        #     mode="markers",
+        #     name="acft",
+        # )
 
-        for wpt in fpl.waypoints:
-            self.fig.add_scattermapbox(
-                lat=[wpt.coords[0]],
-                lon=[wpt.coords[1]],
-                mode="markers",
-                marker=dict(size=10, color="red"),
-                name=wpt.name,
-            )
+        # for wpt in fpl.waypoints:
+        #     self.fig.add_scattermapbox(
+        #         lat=[wpt.coords[0]],
+        #         lon=[wpt.coords[1]],
+        #         mode="markers",
+        #         marker=dict(size=10, color="red"),
+        #         name=wpt.name,
+        #     )
 
-        self.fig.update_layout(
-            mapbox_style="white-bg",
-            mapbox_layers=[
-                {
-                    "below": "traces",
-                    "sourcetype": "raster",
-                    "sourceattribution": "United States Geological Survey",
-                    "source": [
-                        "https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}"
-                    ],
-                }
-            ],
-        )
-        self.fig.show()
+        # self.fig.update_layout(
+        #     mapbox_style="white-bg",
+        #     mapbox_layers=[
+        #         {
+        #             "below": "traces",
+        #             "sourcetype": "raster",
+        #             "sourceattribution": "United States Geological Survey",
+        #             "source": [
+        #                 "https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}"
+        #             ],
+        #         }
+        #     ],
+        # )
+        # self.fig.show()
 
     def takeoff(self):
         fpl: FlightPlan = self.coordinator.state["fpl"]
@@ -84,11 +84,12 @@ class DummyConnector:
         dt = (t_now - self.last_time) * RATE
         dl = 1.68781 * self.speed * dt
         dh = self.vs / 60 * dt
-        # print("dt", dt, "dl", dl, "dh", dh)
 
         if self.alt >= 1_500:
             self.speed = 250
-            self.heading = coord_bearing(self.pos, self.coordinator.state["next_wpt"].coords)
+            self.heading = coord_bearing(
+                self.pos, self.coordinator.state["next_wpt"].coords
+            )
 
             # if time.time() - self.t_start > 25:
             #     if not self.ch:
@@ -109,10 +110,10 @@ class DummyConnector:
         self.coordinator.state["vs"] = self.vs * RATE
         self.coordinator.state["gs"] = self.speed * RATE
 
-        print(
-            "# state={}, alt={}, pos={}, heading={}".format(
-                self.state, self.alt, self.pos, self.heading
-            )
-        )
+        # print(
+        #     "# state={}, alt={}, pos={}, heading={}".format(
+        #         self.state, self.alt, self.pos, self.heading
+        #     )
+        # )
 
         self.last_time = t_now

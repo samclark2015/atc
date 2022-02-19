@@ -8,6 +8,7 @@ class Waypoint:
     lat_lon: Tuple[float, float]
     alt_cst: Optional[float]
 
+
 @dataclass
 class Vector:
     heading: float

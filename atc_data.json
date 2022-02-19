@@ -1,0 +1,329 @@
+{
+  "entities": {
+    "airport": {
+      "automatically_extensible": true,
+      "data": [],
+      "matching_strictness": 1.0,
+      "use_synonyms": true
+    },
+    "altitde": {
+      "automatically_extensible": true,
+      "data": [],
+      "matching_strictness": 1.0,
+      "use_synonyms": true
+    },
+    "altitude": {
+      "automatically_extensible": true,
+      "data": [],
+      "matching_strictness": 1.0,
+      "use_synonyms": true
+    },
+    "callsign": {
+      "automatically_extensible": true,
+      "data": [],
+      "matching_strictness": 1.0,
+      "use_synonyms": true
+    },
+    "runway": {
+      "automatically_extensible": true,
+      "data": [],
+      "matching_strictness": 1.0,
+      "use_synonyms": true
+    }
+  },
+  "intents": {
+    "readback:clearance": {
+      "utterances": [
+        {
+          "data": [
+            {
+              "entity": "callsign",
+              "slot_name": "callsign",
+              "text": "delta 1567"
+            },
+            {
+              "text": " cleared to "
+            },
+            {
+              "entity": "airport",
+              "slot_name": "dest",
+              "text": "syracuse hancock"
+            },
+            {
+              "text": ". Climb and maintain "
+            },
+            {
+              "entity": "altitude",
+              "slot_name": "altitude",
+              "text": "3000 feet"
+            },
+            {
+              "text": ". Expect runway "
+            },
+            {
+              "entity": "runway",
+              "slot_name": "runway",
+              "text": "28"
+            },
+            {
+              "text": "."
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "entity": "callsign",
+              "slot_name": "callsign",
+              "text": "delta 1567"
+            },
+            {
+              "text": " clear "
+            },
+            {
+              "entity": "airport",
+              "slot_name": "dest",
+              "text": "new york kennedy"
+            },
+            {
+              "text": ". Up to "
+            },
+            {
+              "entity": "altitude",
+              "slot_name": "altitude",
+              "text": "7000 feet"
+            },
+            {
+              "text": ", runway "
+            },
+            {
+              "entity": "runway",
+              "slot_name": "runway",
+              "text": "34"
+            },
+            {
+              "text": "."
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "entity": "callsign",
+              "slot_name": "callsign",
+              "text": "delta 1567"
+            },
+            {
+              "text": " clear "
+            },
+            {
+              "entity": "airport",
+              "slot_name": "dest",
+              "text": "new york kennedy"
+            },
+            {
+              "text": ". Up to "
+            },
+            {
+              "entity": "altitde",
+              "slot_name": "altitude",
+              "text": "7000 feet"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "entity": "runway",
+              "slot_name": "runway",
+              "text": "13 center"
+            },
+            {
+              "text": "."
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "entity": "callsign",
+              "slot_name": "callsign",
+              "text": "delta 1567"
+            },
+            {
+              "text": " is clear "
+            },
+            {
+              "entity": "airport",
+              "slot_name": "dest",
+              "text": "new york kennedy"
+            },
+            {
+              "text": ". Up to "
+            },
+            {
+              "entity": "altitude",
+              "slot_name": "altitude",
+              "text": "flight level 130"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "entity": "runway",
+              "slot_name": "runway",
+              "text": "13 left"
+            },
+            {
+              "text": "."
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "entity": "callsign",
+              "slot_name": "callsign",
+              "text": "delta 1567"
+            },
+            {
+              "text": " clear to "
+            },
+            {
+              "entity": "airport",
+              "slot_name": "dest",
+              "text": "new york kennedy"
+            },
+            {
+              "text": ". Climb and maintain "
+            },
+            {
+              "entity": "altitude",
+              "slot_name": "altitude",
+              "text": "flight level 240"
+            },
+            {
+              "text": ", "
+            },
+            {
+              "entity": "runway",
+              "slot_name": "runway",
+              "text": "02 right"
+            },
+            {
+              "text": "."
+            }
+          ]
+        }
+      ]
+    },
+    "request:clearance": {
+      "utterances": [
+        {
+          "data": [
+            {
+              "entity": "callsign",
+              "slot_name": "callsign",
+              "text": "delta 1567"
+            },
+            {
+              "text": " requesting ifr clearance"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "entity": "callsign",
+              "slot_name": "callsign",
+              "text": "delta 1567"
+            },
+            {
+              "text": " ready for ifr clearance"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "entity": "callsign",
+              "slot_name": "callsign",
+              "text": "delta 1567"
+            },
+            {
+              "text": " ready to copy ifr clearance"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "entity": "callsign",
+              "slot_name": "callsign",
+              "text": "delta 1567"
+            },
+            {
+              "text": " ready to copy ifr clearance to "
+            },
+            {
+              "entity": "airport",
+              "slot_name": "dest",
+              "text": "syracuse hancock"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "entity": "callsign",
+              "slot_name": "callsign",
+              "text": "delta 1567"
+            },
+            {
+              "text": " ready for clearance to "
+            },
+            {
+              "entity": "airport",
+              "slot_name": "dest",
+              "text": "chicago o'hare"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "entity": "callsign",
+              "slot_name": "callsign",
+              "text": "delta 1567"
+            },
+            {
+              "text": " requesting clearance to "
+            },
+            {
+              "entity": "airport",
+              "slot_name": "dest",
+              "text": "new york kennedy"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "entity": "callsign",
+              "slot_name": "callsign",
+              "text": "delta 1567"
+            },
+            {
+              "text": " requesting clearance to "
+            },
+            {
+              "entity": "airport",
+              "slot_name": "dest",
+              "text": "london heathrow"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "language": "en"
+}

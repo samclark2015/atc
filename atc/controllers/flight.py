@@ -24,27 +24,57 @@ class FlightController(Controller):
         self.lvl_change = "UP"
         self.departed = False
 
-    
     @handles("request:takeoff")
     @requires_flightplan
     def handle_takeoff(self, data):
         if self.departed:
-            return "error:takeoff:already_departed", data
+            return "request:takeoff:already_departed", data
 
         fpl: FlightPlan = self.coordinator.state["fpl"]
         self.coordinator.state["next_wpt"] = fpl.waypoints[0]
-        return "request:takeoff:ok", {"callsign": fpl.callsign, "altimeter": fpl.altimeter, "rwy": fpl.dep_rwy}
+        return "request:takeoff:ok", {
+            "callsign": fpl.callsign,
+            "altimeter": fpl.altimeter,
+            "rwy": fpl.dep_rwy,
+        }
 
     @handles("request:alt_change")
     @requires_flightplan
     def handle_alt_change(self, data):
         fpl: FlightPlan = self.coordinator.state["fpl"]
         alt = self.coordinator.state["alt"]
-        direction = "climb" if data["altitude__conv"] > alt else "descent"
+        direction = "climb" if data["altitude__conv"] > alt else "descend"
         return "request:alt_change:ok", {
             "callsign": fpl.callsign,
             "dir": direction,
-            "alt": data["altitude"],
+            "alt": data["altitude__conv"],
+        }
+
+    @handles("readback:alt_change")
+    @requires_flightplan
+    def handle_alt_change(self, data):
+        fpl: FlightPlan = self.coordinator.state["fpl"]
+        alt = self.coordinator.state["alt"]
+        asn = self.coordinator.state["assigned_alt"]
+
+        if data["altitude__conv"] != asn:
+            direction = "climb" if data["altitude__conv"] > alt else "descend"
+            return "request:alt_change:ok", {
+                "callsign": fpl.callsign,
+                "dir": direction,
+                "alt": data["altitude__conv"],
+            }
+
+    @handles("request:dir_wpt")
+    @requires_flightplan
+    def handle_dir_wpt(self, data):
+        fpl: FlightPlan = self.coordinator.state["fpl"]
+        alt = self.coordinator.state["alt"]
+        direction = "climb" if data["altitude__conv"] > alt else "descend"
+        return "request:alt_change:ok", {
+            "callsign": fpl.callsign,
+            "dir": direction,
+            "alt": data["altitude__conv"],
         }
 
     def advance(self):
@@ -61,16 +91,16 @@ class FlightController(Controller):
         nxt = self.coordinator.state["next_wpt"].alt_asn
         if asn - alt < randint(700, 1500):
             if asn != nxt:
-                    self.lvl_change = "UP" if nxt > asn else "DOWN"
-                    self.coordinator.state["assigned_alt"] = nxt
-                    self.coordinator.say(
-                        "request:alt_change:ok",
-                        {
-                            "callsign": self.coordinator.state["fpl"].callsign,
-                            "dir": "climb" if self.lvl_change == "UP" else "descend",
-                            "alt": self.coordinator.state["assigned_alt"],
-                        },
-                    )
+                self.lvl_change = "UP" if nxt > asn else "DOWN"
+                self.coordinator.state["assigned_alt"] = nxt
+                self.coordinator.say(
+                    "request:alt_change:ok",
+                    {
+                        "callsign": self.coordinator.state["fpl"].callsign,
+                        "dir": "climb" if self.lvl_change == "UP" else "descend",
+                        "alt": self.coordinator.state["assigned_alt"],
+                    },
+                )
 
         if self.dist_to_next < DIST_THRESH:
             self.advance()
@@ -78,27 +108,25 @@ class FlightController(Controller):
     def vertical_check(self):
         fpl: FlightPlan = self.coordinator.state["fpl"]
         wpt: Waypoint = self.coordinator.state["next_wpt"]
-        alt: float = self.coordinator.state["alt"] # ft
-        vs: float = self.coordinator.state["vs"] / 60.0 # ft / sec
-        gs: float = self.coordinator.state["gs"] * 1.68781 # ft / sec
+        alt: float = self.coordinator.state["alt"]  # ft
+        vs: float = self.coordinator.state["vs"] / 60.0  # ft / sec
+        gs: float = self.coordinator.state["gs"] * 1.68781  # ft / sec
 
-        dist_ft = self.dist_to_next * 6076.12 # ft
+        dist_ft = self.dist_to_next * 6076.12  # ft
 
         if gs > 0:
-            alt_at_next = alt + vs * dist_ft / gs 
+            alt_at_next = alt + vs * dist_ft / gs
 
             if wpt.alt_cst[0] and alt_at_next < wpt.alt_cst[0]:
                 # Too low
                 ...
             elif wpt.alt_cst[1] and wpt.alt_cst[1] < alt_at_next:
                 # Too high
-                
-                ...
 
+                ...
 
     def lateral_check(self):
         fpl: FlightPlan = self.coordinator.state["fpl"]
-
 
         if self.coordinator.state["last_wpt"] is not None:
             planned_hdg = coord_bearing(
@@ -162,15 +190,12 @@ class FlightController(Controller):
             self.vector_calls = 0
             self.coordinator.say("info:off_course:ok", {"callsign": fpl.callsign})
 
-            # print("planned_hdg", planned_hdg)
-            # print("dir_hdg", dir_hdg)
-            # print("act hdg", act_hdg)
-            # print("hdg dev", hdg_dev)
-            # print("track_dev", track_dev)
-
     @property
     def dist_to_next(self):
-        if "pos" not in self.coordinator.state or "next_wpt" not in self.coordinator.state:
+        if (
+            "pos" not in self.coordinator.state
+            or "next_wpt" not in self.coordinator.state
+        ):
             return None
 
         return coord_dist(

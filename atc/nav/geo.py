@@ -2,18 +2,23 @@ import math
 
 R = 3443.92  # Radius of the Earth
 
+
 def coord_dist(coord1, coord2):
     lat1, lon1 = coord1
     lat2, lon2 = coord2
 
     lon1, lat1, lon2, lat2 = map(math.radians, [lon1, lat1, lon2, lat2])
 
-    # haversine formula 
-    dlon = lon2 - lon1 
-    dlat = lat2 - lat1 
-    a = math.sin(dlat/2)**2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon/2)**2
-    c = 2 * math.asin(math.sqrt(a)) 
+    # haversine formula
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+    a = (
+        math.sin(dlat / 2) ** 2
+        + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
+    )
+    c = 2 * math.asin(math.sqrt(a))
     return c * R
+
 
 def coord_bearing(coord1, coord2):
     lat1, lon1 = coord1
@@ -27,11 +32,14 @@ def coord_bearing(coord1, coord2):
     dlon = lon2r - lon1r
 
     y = math.sin(dlon) * math.cos(lat2r)
-    x = math.cos(lat1r) * math.sin(lat2r) - math.sin(lat1r) * math.cos(lat2r) * math.cos(dlon)
+    x = math.cos(lat1r) * math.sin(lat2r) - math.sin(lat1r) * math.cos(
+        lat2r
+    ) * math.cos(dlon)
 
     brng = math.degrees(math.atan2(y, x))
 
     return (brng + 360) % 360
+
 
 def coord_add(coord, ft, brg):
     lat, lon = coord

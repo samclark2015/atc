@@ -39,7 +39,7 @@
     "error:takeoff:already_departed": [
         "{callsign}, you have already departed."
     ],
-    "readback_correct": [
+    "readback:ok": [
         "{callsign}, readback correct.",
         "{callsign}, readback correct. Contact {controller} on {freq}."
     ],

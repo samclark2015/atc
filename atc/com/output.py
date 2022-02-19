@@ -1,69 +1,35 @@
 import importlib.resources as rsc
-import json
+import logging
 import re
+
+import yaml
 
 from .. import resources
 from ..db import get_airport_name
 from .common import CONVERTERS
 
-nato_alpha = {
-    "a": "alpha",
-    "b": "bravo",
-    "c": "charlie",
-    "d": "delta",
-    "e": "echo",
-    "f": "foxtrot",
-    "g": "golf",
-    "h": "hotel",
-    "i": "india",
-    "j": "juliet",
-    "k": "kilo",
-    "l": "leema",
-    "m": "mike",
-    "n": "november",
-    "o": "oscar",
-    "p": "papa",
-    "q": "quebec",
-    "r": "romeo",
-    "s": "sierra",
-    "t": "tango",
-    "u": "uniform",
-    "v": "victor",
-    "w": "whisky",
-    "x": "xray",
-    "y": "yankee",
-    "z": "zulu",
-}
+LOGGER = logging.getLogger("atc.com.output")
 
-number_map = {
-    "1": "one",
-    "2": "two",
-    "3": "three",
-    "4": "four",
-    "5": "five",
-    "6": "six",
-    "7": "seven",
-    "8": "eight",
-    "9": "niner",
-    "0": "zero",
-}
+from .common import NATO_ALPHA, NUMBER_MAP
 
 reply_map = {
-    r"(\d)(\d)\.(\d)(\d)": lambda match: "{} {} {} {}".format(*[number_map[i] for i in match.groups()]),
+    r"(\d)(\d)\.(\d)(\d)": lambda match: "{} {} {} {}".format(
+        *[NUMBER_MAP[i] for i in match.groups()]
+    ),
     r"(^|\W)([a-zA-Z]|[A-Z]+)($|\W)": lambda match: "{}{}{}".format(
         match.group(1),
-        " ".join(nato_alpha[char] for char in match.group(2).lower()),
+        " ".join(NATO_ALPHA[char] for char in match.group(2).lower()),
         match.group(3),
     ),
     "0{3}": "thousand",
-    r"(\d)": lambda match: " " + number_map[match.group(1)] + " ",
+    r"(\d)": lambda match: " " + NUMBER_MAP[match.group(1)] + " ",
     "intl|Intl": "international",
 }
 
 reply_map_re = {re.compile(key): value for key, value in reply_map.items()}
 
-with rsc.open_text(resources, "replies.json") as f:
-    replies = json.load(f)
+with rsc.open_text(resources, "replies.yml") as f:
+    replies = yaml.safe_load(f)
 
 
 def get_response(reply_type, data={}):
@@ -77,18 +43,19 @@ def get_response(reply_type, data={}):
         CONVERTERS[reply_type](data)
 
     options = replies.get(reply_type)
-    if not options:
+    if options is None:
+        LOGGER.warning("No replies found for %s", reply_type)
         message = "Sorry, I don't know how to respond to that."
+    else:
+        message: str = max(options, key=lambda s: sum(s.count(k) for k in data.keys()))
 
-    message: str = max(options, key=lambda s: sum(s.count(k) for k in data.keys()))
+        phonetic_data = {}
+        for key, value in data.items():
+            value = str(value)
+            for regexp, replace in reply_map_re.items():
+                value = regexp.sub(replace, value)
+            phonetic_data[key] = value
 
-    phonetic_data = {}
-    for key, value in data.items():
-        value = str(value)
-        for regexp, replace in reply_map_re.items():
-            value = regexp.sub(replace, value)
-        phonetic_data[key] = value
-
-    message = message.format_map(phonetic_data)
+        message = message.format_map(phonetic_data)
 
     return message

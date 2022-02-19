@@ -1,0 +1,68 @@
+---
+type: entity
+name: callsign
+automatically_extensible: yes
+values:
+  - delta 1567
+  - american 222
+  - speedbird 5901
+  - fedex 192
+
+--- 
+type: entity
+name: airport
+automatically_extensible: yes
+values:
+  - new york kennedy
+  - syracuse hancock
+  - london heathrow
+  - san francisco international
+
+---
+type: entity
+name: runway
+automatically_extensible: yes
+values:
+  - 33 left
+  - 15 right
+  - 04 center
+  - "28"
+
+---
+type: entity
+name: altitude
+automatically_extensible: yes
+values:
+  - "1500 feet"
+  - "5000 ft"
+  - flight level 350
+  - flight level 280
+
+---
+type: entity
+name: sid_star
+automatically_extensible: yes
+values:
+  - TERPZ9
+  - FRICK six
+  - LINKT 3
+
+---
+type: entity
+name: waypoint
+automatically_extensible: yes
+values:
+  - MAKRS
+  - ROBIE
+  - JOLIE
+  - JERES
+
+---
+type: entity
+name: taxi_path
+automatically_extensible: yes
+values:
+  - A B C D E
+  - A B1 C D2 EE
+  - Z Y X
+  - S M K I H

@@ -7,8 +7,7 @@ from adapt.engine import IntentDeterminationEngine
 from adapt.intent import Intent, IntentBuilder
 
 from .. import resources
-from . import converters
-from .common import CONVERTERS
+from .common import convert
 
 with rsc.open_text(resources, "adapt.json") as f:
     adapt_data = json.load(f)
@@ -44,18 +43,12 @@ for parser in intents.values():
 
 
 def get_intent(text: str) -> Intent:
-    print("< {}".format(text))
     intents = engine.determine_intent(text.lower())
     intents = list(intents)
 
     if intents:
         intent = intents[0]
-        data = {}
-        for key in intent:
-            if key in CONVERTERS:
-                data[key + "__conv"] = CONVERTERS[key](intent[key])
-            data[key] = intent[key]
-        return data
+        return convert(intent)
     else:
         return None
 

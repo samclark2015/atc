@@ -1,0 +1,41 @@
+---
+type: intent
+name: readback:alt_change
+slots:
+  - name: callsign
+    entity: callsign
+  - name: altitude
+    entity: altitude
+utterances:
+  - "[callsign] climb and maintain [altitude]"
+  - "[callsign] descend and maintain [altitude]"
+  - "[callsign] up to [altitude]"
+  - "up to [altitude] for [callsign]"
+  - "[callsign] down to [altitude]"
+  - "down to [altitude] for [callsign]"
+  - "[callsign] to [altitude]"
+
+---
+type: intent
+name: request:alt_change
+slots:
+  - name: callsign
+    entity: callsign
+  - name: altitude
+    entity: altitude
+utterances:
+  - "[callsign] requesting [altitude]"
+  - "[callsign] requesting climb to [altitude]"
+  - "[callsign] requesting descent to [altitude]"
+
+---
+type: intent
+name: request:dir_wpt
+slots:
+  - name: callsign
+    entity: callsign
+  - name: wpt
+    entity: waypoint
+utterances:
+  - "[callsign] requesting direct to [wpt]"
+  - "[callsign] would like direct [wpt]"

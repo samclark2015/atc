@@ -64,5 +64,6 @@ automatically_extensible: yes
 values:
   - A B C D E
   - A B1 C D2 EE
+  - alpha 1 alpha tango echh papa delta delta one
   - Z Y X
   - S M K I H

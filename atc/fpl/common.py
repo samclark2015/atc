@@ -122,9 +122,10 @@ class FlightPlan:
                 # At or below
                 wpt_cst = (None, max(a1, a2))
 
-            wpt = Waypoint(wpt["fix_ident"], wpt_cst or alt_cst, alt_asn)
+            wpt = Waypoint(wpt["fix_ident"], wpt_cst or alt_cst, a1)
             alt_cst = wpt.alt_cst
             approach.append(wpt)
+            
         self.approach = approach
 
         if not self.altimeter:

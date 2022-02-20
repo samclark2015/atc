@@ -6,7 +6,7 @@ import yaml
 
 from .. import resources
 from ..db import get_airport_name
-from .common import CONVERTERS
+from .common import CONVERTERS, convert
 
 LOGGER = logging.getLogger("atc.com.output")
 
@@ -39,15 +39,19 @@ def get_response(reply_type, data={}):
     if "destination" in data:
         data["destination"] = get_airport_name(data["destination"])
 
-    if reply_type in CONVERTERS:
-        CONVERTERS[reply_type](data)
-
     options = replies.get(reply_type)
     if options is None:
         LOGGER.warning("No replies found for %s", reply_type)
         message = "Sorry, I don't know how to respond to that."
     else:
-        message: str = max(options, key=lambda s: sum(s.count(k) for k in data.keys()))
+        message: str = max(
+            options, key=lambda s: sum(s.count(k) for k in data.keys() if data[k])
+        )
+
+        matches = re.findall(r"\{([a-zA-Z_]+)\}", message)
+        data = {match: data[match] for match in matches if data[match]}
+
+        data = convert(data, "out")
 
         phonetic_data = {}
         for key, value in data.items():
@@ -56,6 +60,10 @@ def get_response(reply_type, data={}):
                 value = regexp.sub(replace, value)
             phonetic_data[key] = value
 
-        message = message.format_map(phonetic_data)
+        try:
+            message = message.format_map(phonetic_data)
+        except KeyError as e:
+            LOGGER.critical("Missing value for %s in reply %s", e, reply_type)
+            return "There was an error processing that request."
 
     return message

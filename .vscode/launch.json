@@ -5,12 +5,12 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Module",
+            "name": "Python: ATC",
             "type": "python",
             "request": "launch",
-            "module": "atc.com.input",
+            "module": "atc",
             "justMyCode": false,
-            "args": ["runway 33 left"]
+            "args": ["--backend", "test"]
         }
     ]
 }

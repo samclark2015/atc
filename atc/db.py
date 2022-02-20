@@ -33,7 +33,7 @@ def waypoints_to_latlon(*wpts):
 
 
 def get_taxiways(icao: str):
-    q = "select * from taxi_path where airport_id = (select airport_id from airport where icao = ?)"
+    q = "select * from taxi_path where airport_id = (select airport_id from airport where icao = ?) and UPPER(name) != 'RAMP'"
     return conn.execute(q, (icao,)).fetchall()
 
 
@@ -57,14 +57,23 @@ def get_airport_name(icao: str):
 def get_approach(icao: str, rwy: str):
     q = "select al.fix_ident, al.alt_descriptor, al.altitude1, al.altitude2 from approach_leg al \
         where is_missed = 0 and \
+        fix_type in ('W', 'TW') and\
         approach_id = (\
-            select approach_id from approach where airport_ident = ? and runway_name = ? order by case type \
-            when 'ILS' then 0 \
-            when 'RNAV' then 1 \
-            when 'GPS' then 2 \
-            else 3 end \
+            select approach_id from approach where \
+                airport_ident = ? and \
+                runway_name = ? \
+                order by case type \
+                    when 'ILS' then 0 \
+                    when 'RNAV' then 1 \
+                    when 'GPS' then 2 \
+                    else 3 end \
         ) ORDER BY approach_leg_id ASC"
     return conn.execute(q, (icao, rwy)).fetchall()
+
+
+def get_airport_info(icao: str):
+    q = "select * from airport where icao = ?"
+    return conn.execute(q, (icao,)).fetchone()
 
 
 if __name__ == "__main__":

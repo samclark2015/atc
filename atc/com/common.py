@@ -3,14 +3,15 @@ from typing import Any, Dict
 CONVERTERS = {}
 
 
-def convert(data: Dict[str, Any]):
+def convert(data: Dict[str, Any], direction) -> Dict[str, Any]:
     from . import converters
 
     new = {}
     for key in data:
         if key in CONVERTERS:
-            new[key + "__conv"] = CONVERTERS[key](data[key])
-        new[key] = data[key]
+            new[key] = new[key + "__raw"] = CONVERTERS[key](data[key], direction)
+        else:
+            new[key] = data[key]
     return new
 
 

@@ -5,7 +5,7 @@ from atc.com.common import convert
 
 from ..fpl import FlightPlan, SimbriefImporter
 from ..nav.ground import find_path_runway, get_ground_network
-from .common import Controller, handles, requires_flightplan
+from .common import Controller, handles, is_correct, requires_flightplan
 
 
 class GroundController(Controller):
@@ -33,7 +33,11 @@ class GroundController(Controller):
             self.coordinator.state["next_wpt"] = wpts.pop(0)
 
         self.coordinator.state["clearance"] = True
-        return "request:clearance:ok", {**self.coordinator.state, **fpl.to_dict()}
+        return "request:clearance:ok", {
+            "runway": fpl.dep_rwy,
+            **self.coordinator.state,
+            **fpl.to_dict(),
+        }
 
     @handles("readback:clearance")
     @requires_flightplan
@@ -41,13 +45,17 @@ class GroundController(Controller):
         fpl: FlightPlan = self.coordinator.state["fpl"]
 
         if (
-            self.coordinator.state["assigned_alt"] == data.get("altitude__conv")
-            and fpl.dep_rwy == data.get("runway__conv")
-            and fpl.sid == data.get("sid__conv")
+            is_correct(self.coordinator.state["assigned_alt"], data.get("altitude"))
+            and is_correct(fpl.dep_rwy, data.get("runway"))
+            and is_correct(fpl.sid, data.get("sid"))
         ):
             return "readback:ok", {**self.coordinator.state, **fpl.to_dict()}
         else:
-            return "request:clearance:ok", {**self.coordinator.state, **fpl.to_dict()}
+            return "request:clearance:ok", {
+                "runway": fpl.dep_rwy,
+                **self.coordinator.state,
+                **fpl.to_dict(),
+            }
 
     @handles("request:pushback")
     @requires_flightplan
@@ -62,26 +70,34 @@ class GroundController(Controller):
         pos = self.coordinator.state["pos"]
         twy_network = get_ground_network(fpl.origin)
         path = find_path_runway(twy_network, pos, fpl.origin, fpl.dep_rwy)
-        # self.coordinator.current_engine = self.coordinator.flight_engine
         self.coordinator.state["taxi_path"] = [c.lower() for c in path]
         return "request:taxi:ok", {
             "callsign": fpl.callsign,
             "path": "... ".join(path),
-            "rwy": fpl.dep_rwy,
+            "runway": fpl.dep_rwy,
         }
 
     @handles("readback:taxi")
     @requires_flightplan
     def handle_taxi_readback(self, data):
         fpl: FlightPlan = self.coordinator.state["fpl"]
-
-        if self.coordinator.state["taxi_path"] == data.get("path__conv"):
-            return "readback:ok", {**self.coordinator.state, **fpl.to_dict()}
+        path = "".join(
+            c.lower().replace(" ", "") for c in self.coordinator.state["taxi_path"]
+        )
+        print(path, data.get("path"))
+        if path == data.get("path"):
+            self.coordinator.current_controller = self.coordinator.flight_controller
+            return "readback:ok", {
+                "controller": "tower",
+                "freq": "123.45",
+                **self.coordinator.state,
+                **fpl.to_dict(),
+            }
         else:
-            return "request:taxi_path:ok", {
+            return "request:taxi:ok", {
                 "callsign": fpl.callsign,
                 "path": "... ".join(self.coordinator.state["taxi_path"]),
-                "rwy": fpl.dep_rwy,
+                "runway": fpl.dep_rwy,
             }
 
     def periodic(self):

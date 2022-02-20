@@ -11,15 +11,15 @@ say_again:
 
 # Readback
 readback:ok:
-  - "{callsign}, readback correct."
-  - "{callsign}, readback correct. Contact {controller} on {freq}."
+  - "{callsign}, reed back correct."
+  - "{callsign}, reed back correct. Contact {controller} on {freq} when ready."
 
 # Clearance
 request:clearance:ok:
   - "{callsign}, cleared to {destination} as filed. Climb and maintain {assigned_alt}
-    feet. Expect departing runway {dep_rwy}. Altimeter {altimeter}."
+    feet. Expect departing runway {runway}. Altimeter {altimeter}."
   - "{callsign}, cleared to {destination} via the {sid} departure as filed. Climb and
-    maintain {assigned_alt} feet. Expect departing runway {dep_rwy}. Altimeter {altimeter}."
+    maintain {assigned_alt} feet. Expect departing runway {runway}. Altimeter {altimeter}."
 request:clearance:not_filed:
   - No flightplan filed.
   - "{callsign}, no flight plan on file."
@@ -27,14 +27,14 @@ request:clearance:not_filed:
 # Pushback & taxi
 request:pushback:ok:
   - "{callsign}, pushback approved."
-  - "{callsign}, pushback approved. Taxi via {path}, hold short runway {rwy}. Contact tower when ready."
+  - "{callsign}, pushback approved. Taxi via {path}, hold short runway {runway}. Contact tower when ready."
 request:taxi:ok:
-  - "{callsign}, taxi via {path}, hold short runway {rwy}. Contact tower when ready."
+  - "{callsign}, taxi via {path}, hold short runway {runway}."
 
 # Takeoff
 request:takeoff:ok:
-  - "{callsign}, cleared for takeoff, runway {rwy}. Altimeter {altimeter}."
-  - "{callsign}, cleared for takeoff, runway {rwy}. Winds {dir} at {speed}. Altimeter {altimeter}."
+  - "{callsign}, cleared for takeoff, runway {runway}. Altimeter {altimeter}."
+  - "{callsign}, cleared for takeoff, runway {runway}. Winds {dir} at {speed}. Altimeter {altimeter}."
 request:takeoff:already_departed:
   - "{callsign}, you have already departed."
 
@@ -52,6 +52,10 @@ info:off_course:ok:
   - "{callsign}, you are back on course. Continue as filed."
 info:off_course:vectors:
   - "{callsign}, you are {dist} miles off course. Turn {dir} heading {hdg} to waypoint {wpt}."
+
+info:approach:cleared:
+  # - "{callsign}, you are cleared for the approach to runway {runway}. Turn {dir} heading {hdg}."
+  - "{callsign}, you are cleared for the approach to runway {runway}."
 
 request:alt_change:ok:
   - "{callsign}, {dir} and maintain {alt}."

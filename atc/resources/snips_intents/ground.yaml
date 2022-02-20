@@ -33,7 +33,9 @@ utterances:
   - "[callsign] cleared to [dest]. Climb and maintain [altitude]. Expect runway [runway]."
   - "[callsign] cleared to [dest] via the [sid] departure. Climb and maintain [altitude]. Expect runway [runway]."
   - "[callsign] clear [dest]. Up to [altitude], runway [runway]."
+  - "[callsign] clear [dest]. Upto [altitude], runway [runway]."
   - "[callsign] clear [dest]. Up to [altitude] and [runway]."
+  - "[callsign] clear [dest]. Upto [altitude] and [runway]."
   - "[callsign] is clear [dest]. Up to [altitude] and [runway]."
   - "[callsign] clear to [dest]. Climb and maintain [altitude], [runway]."
   - "[callsign] is cleared to [dest]."
@@ -83,6 +85,22 @@ utterances:
 
 ---
 type: intent
+name: report:hold_short
+slots:
+  - name: callsign
+    entity: callsign
+  - name: runway
+    entity: runway
+utterances:
+  - "[callsign] holding short runway [runway]."
+  - "[callsign] holding short of runway [runway]."
+  - "[callsign] holding short [runway]."
+  - "[callsign] holding short of [runway]."
+  - "[callsign] short of [runway]."
+  - "[callsign] short of runway [runway]."
+
+---
+type: intent
 name: request:takeoff
 slots:
   - name: callsign
@@ -97,3 +115,17 @@ utterances:
   - "[callsign] ready for takeoff runway [runway]."
   - "[callsign] ready for departure runway [runway]."
   - "[callsign] requesting departure runway [runway]."
+
+---
+type: intent
+name: readback:takeoff
+slots:
+  - name: callsign
+    entity: callsign
+  - name: runway
+    entity: runway
+utterances:
+  - "[callsign] clear for take off runway [runway]."
+  - "[callsign] cleared for takeoff runway [runway]."
+  - "[callsign] clear for departure runway [runway]."
+  - "[callsign] clear departure runway [runway]."

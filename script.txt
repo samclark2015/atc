@@ -2,8 +2,11 @@ delta 1567 requesting ifr clearance to ksyr
 delta 1567 cleared to KSYR via the TERPZ6 departure, up to 5000 feet. Expect runway 33 left. 
 delta 1567 requesting pushback
 delta 1567 ready for taxi
-delta 1567 ready for takeoff
+delta 1567 taxi via sierra whiskey
+delta 1567 holding short runway 33
 @wait
-delta 1567 up to flight level 370
-@wait 10
-delta 1567 requesting direct JERES
+delta 1567 up to flight level 120
+@wait
+delta 1567 down to 2300 feet
+@wait
+@wait

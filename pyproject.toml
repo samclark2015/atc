@@ -16,8 +16,13 @@ snips-nlu = "^0.20.2"
 xplaneconnect = {git = "https://github.com/nasa/XPlaneConnect.git"}
 PyYAML = "^6.0"
 PyAudio = "^0.2.11"
-PyQt5 = "^5.15.6"
-pyqtlet = "^0.3.3"
+pyedifice = "^0.0.10"
+pyqtlet2 = "^0.6.1"
+fuzzywuzzy = "^0.18.0"
+phonetics = "^1.0.5"
+gTTS = "^2.2.3"
+torchaudio = "^0.10.2"
+deep-phonemizer = "^0.0.17"
 
 [tool.poetry.dev-dependencies]
 plotly = "^5.6.0"
